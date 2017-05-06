@@ -43,7 +43,7 @@ def main(_):
     print("main function started")
     # valid_generator = valid_generator(X_valid, y_valid, 128)
     print("data generated")
-    input_shape = (64, 64, 3)
+    input_shape = (160, 320, 3)
     model = Sequential()
     model.add(Lambda(lambda x: x / 255 - 0.5, input_shape=input_shape))
     model.add(Convolution2D(24, 5, 5, border_mode='valid', subsample=(2, 2), W_regularizer=l2(0.001)))
