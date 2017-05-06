@@ -13,6 +13,8 @@ from keras.layers.pooling import MaxPooling2D
 from keras.optimizers import Adam
 from keras.regularizers import l2
 import math
+import csv
+import cv2
 
 colnames = ['center', 'left', 'right', 'steering', 'throttle', 'brake', 'speed']
 data = pandas.read_csv('driving_log.csv', skiprows=[0], names=colnames)
@@ -26,16 +28,26 @@ throttle = data.throttle.tolist()
 # center_images, X_valid, measurements, y_valid = train_test_split(center_images, measurements, test_size=0.10, random_state=100)
 images = []
 meas = []
+lines = []
+with open('driving_log.csv') as csvfile:
+    reader = csv.reader(csvfile)
+    for line in reader:
+        lines.append(line)
+
+images = []
+measurements = []
+
+for line in lines:
+    source_path = line[0]
+    image = cv2.imread(source_path)
+    images.append(image)
+    measurement = float(line[3])
+    measurements.append(measurement)
 
 
-for measurement in measurements:
-    meas.append(float(measurement))
-
-for im in center_images:
-    images.append(im)
 
 X_train = np.array(images)
-Y_train = np.array(meas)
+Y_train = np.array(measurements)
 
 
 def main(_):
