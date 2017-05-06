@@ -1,6 +1,5 @@
 import matplotlib.image as mpimg
 import numpy as np
-import cv2
 import pandas
 import random
 from sklearn.utils import shuffle
