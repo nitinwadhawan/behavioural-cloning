@@ -42,12 +42,14 @@ for line in lines:
         measurement_flipped = - measurement
         images.append(image_flipped)
         measurements.append(measurement_flipped)
+        #Left camera images
         image_left_flipped = np.fliplr(image_left)
         images.append(image_left_flipped)
-        measurement_left = -measurement
-        measurements.append(measurement_left)
+        measurements.append(measurement_flipped)
+        #right camera images
         image_right_flipped = np.fliplr(image_right)
-        measurements.append(measurement_left)
+        images.append(image_left_flipped)
+        measurements.append(measurement_flipped)
 
 
 
