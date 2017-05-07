@@ -34,8 +34,8 @@ for line in lines:
     measurements.append(measurement+0.25)
 
     # add right camera image
-    image_right = cv2.imread(line[2]-0.25)
-    measurements.append(measurement)
+    image_right = cv2.imread(line[2])
+    measurements.append(measurement-0.25)
     #Flip images
     if measurement != 0:
         image_flipped = np.fliplr(image)
