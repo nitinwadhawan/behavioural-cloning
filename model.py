@@ -53,6 +53,10 @@ for line in lines:
             measurement_flipped = - measurement
             images.append(image_flipped)
             measurements.append(measurement_flipped)
+            right_flipped = np.fliplr(right_image)
+            measurements.append(measurement_flipped)
+            left_flipped = np.fliplr(left_image)
+            measurements.append(measurement_flipped)
 
 
     # correction = 0.2  # this is a parameter to tune
