@@ -24,7 +24,7 @@ with open('driving_log.csv') as csvfile:
 
 
 for line in lines:
-    source_path = line[1]
+    source_path = line[0]
     image = cv2.imread(source_path)
     images.append(image)
     measurement = float(line[3])
@@ -45,11 +45,11 @@ for line in lines:
     # images.append(image_right)
     # measurements.append(right_meas)
     #Flip images
-    if measurement != 0:
-        image_flipped = np.fliplr(image)
-        measurement_flipped = - measurement
-        images.append(image_flipped)
-        measurements.append(measurement_flipped)
+    # if measurement != 0:
+    #     image_flipped = np.fliplr(image)
+    #     measurement_flipped = - measurement
+    #     images.append(image_flipped)
+    #     measurements.append(measurement_flipped)
 
 # for line in lines:
 #     source_path = line[1]
