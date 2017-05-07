@@ -24,20 +24,19 @@ with open('driving_log.csv') as csvfile:
 
 
 for line in lines:
-    source_path = line[0]
+    source_path = line[1]
     image = cv2.imread(source_path)
-    # images.append(image)
+    images.append(image)
     measurement = float(line[3])
-    # measurements.append(measurement)
+    measurements.append(measurement)
     # correction = 0.2  # this is a parameter to tune
     # steering_left = measurement + correction
     # steering_right = measurement - correction
     #add left camera image
-    left_source_path = line[1]
-    image_left = cv2.imread(left_source_path)
-    left_meas = (measurement+0.25)
-    images.extend(image,image_left)
-    measurements.append(measurement,left_meas)
+    # left_source_path = line[1]
+    # image_left = cv2.imread(left_source_path)
+    # left_meas = (measurement+0.25)
+
 
     # # add right camera image
     # right_source_path = line[2]
