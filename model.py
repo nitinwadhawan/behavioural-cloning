@@ -24,11 +24,37 @@ with open('driving_log.csv') as csvfile:
 
 
 for line in lines:
-    source_path = line[1]
-    image = cv2.imread(source_path)
-    images.append(image)
-    measurement = float(line[3])
-    measurements.append(measurement)
+        source_path = line[0]
+        filename = source_path.split('/')[-1]
+        current_path = 'data/IMG/' + filename
+        image = cv2.imread(current_path)
+        images.append(image)
+        measurement = float(line[3])
+        measurements.append(measurement)
+        #Left image
+        left_source_path = line[1]
+        left_filename = left_source_path.split('/')[-1]
+        left_current_path = 'data/IMG/' + filename
+        left_image = cv2.imread(left_current_path)
+        images.append(left_image)
+        left_measurement = float(line[3]) + 0.25
+        measurements.append(left_measurement)
+        # Right image
+        right_source_path = line[2]
+        right_filename = right_source_path.split('/')[-1]
+        right_current_path = 'data/IMG/' + filename
+        right_image = cv2.imread(right_current_path)
+        images.append(right_image)
+        right_measurement = float(line[3]) - 0.25
+        measurements.append(right_measurement)
+
+        if measurement != 0:
+            image_flipped = np.fliplr(image)
+            measurement_flipped = - measurement
+            images.append(image_flipped)
+            measurements.append(measurement_flipped)
+
+
     # correction = 0.2  # this is a parameter to tune
     # steering_left = measurement + correction
     # steering_right = measurement - correction
@@ -36,45 +62,6 @@ for line in lines:
     # left_source_path = line[1]
     # image_left = cv2.imread(left_source_path)
     # left_meas = (measurement+0.25)
-
-
-    # # add right camera image
-    # right_source_path = line[2]
-    # image_right = cv2.imread(right_source_path)
-    # right_meas = measurement-float(0.25)
-    # images.append(image_right)
-    # measurements.append(right_meas)
-    #Flip images
-    # if measurement != 0:
-    #     image_flipped = np.fliplr(image)
-    #     measurement_flipped = - measurement
-    #     images.append(image_flipped)
-    #     measurements.append(measurement_flipped)
-
-# for line in lines:
-#     source_path = line[1]
-#     image = cv2.imread(source_path)
-#     images.append(image)
-#     measurement = float(line[3])
-#     measurements.append(measurement)
-#     if measurement != 0:
-#         image_flipped = np.fliplr(image)
-#         measurement_flipped = - measurement
-#         images.append(image_flipped)
-#         measurements.append(measurement_flipped)
-#
-# for line in lines:
-#     source_path = line[2]
-#     image = cv2.imread(source_path)
-#     images.append(image)
-#     measurement = float(line[3])
-#     measurements.append(measurement)
-#     if measurement != 0:
-#         image_flipped = np.fliplr(image)
-#         measurement_flipped = - measurement
-#         images.append(image_flipped)
-#         measurements.append(measurement_flipped)
-
 
 X_train = np.array(images)
 Y_train = np.array(measurements)
