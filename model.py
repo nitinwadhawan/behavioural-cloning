@@ -83,11 +83,7 @@ def main(_):
 
     ### Model training
     model.fit(X_train, Y_train,validation_split=0.2,shuffle=True)
-
-    model_json = model.to_json()
-    with open("model.json", "w") as json_file:
-        json_file.write(model_json)
-    model.save_weights("model.h5")
+    model.save('model.h5')
     print("Saved model to disk")
 
 
