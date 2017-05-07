@@ -30,11 +30,11 @@ for line in lines:
     measurement = float(line[3])
     measurements.append(measurement)
     #add left camera image
-    left_source_path = line[1]
-    image_left = cv2.imread(left_source_path)
-    left_meas = (measurement+0.25)
-    images.append(image_left)
-    measurements.append(left_meas)
+    # left_source_path = line[1]
+    # image_left = cv2.imread(left_source_path)
+    # left_meas = (measurement+0.25)
+    # images.append(image_left)
+    # measurements.append(left_meas)
     #
     # # add right camera image
     # right_source_path = line[2]
@@ -49,7 +49,29 @@ for line in lines:
         images.append(image_flipped)
         measurements.append(measurement_flipped)
 
+for line in lines:
+    source_path = line[1]
+    image = cv2.imread(source_path)
+    images.append(image)
+    measurement = float(line[3])
+    measurements.append(measurement)
+    if measurement != 0:
+        image_flipped = np.fliplr(image)
+        measurement_flipped = - measurement
+        images.append(image_flipped)
+        measurements.append(measurement_flipped)
 
+for line in lines:
+    source_path = line[2]
+    image = cv2.imread(source_path)
+    images.append(image)
+    measurement = float(line[3])
+    measurements.append(measurement)
+    if measurement != 0:
+        image_flipped = np.fliplr(image)
+        measurement_flipped = - measurement
+        images.append(image_flipped)
+        measurements.append(measurement_flipped)
 
 
 X_train = np.array(images)
