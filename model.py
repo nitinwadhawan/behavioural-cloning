@@ -38,10 +38,17 @@ for line in lines:
     measurements.append(measurement)
     #Flip images
     if measurement != 0:
-            image_flipped = np.fliplr(image)
-            measurement_flipped = - measurement
-            images.append(image_flipped)
-            measurements.append(measurement_flipped)
+        image_flipped = np.fliplr(image)
+        measurement_flipped = - measurement
+        images.append(image_flipped)
+        measurements.append(measurement_flipped)
+        image_left_flipped = np.fliplr(image_left)
+        images.append(image_left_flipped)
+        measurement_left = -measurement
+        measurements.append(measurement_left)
+        image_right_flipped = np.fliplr(image_right)
+        measurements.append(measurement_left)
+
 
 
 X_train = np.array(images)
