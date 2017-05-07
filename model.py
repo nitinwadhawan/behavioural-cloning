@@ -29,12 +29,20 @@ for line in lines:
     images.append(image)
     measurement = float(line[3])
     measurements.append(measurement)
+    #add left camera image
+    image_left = cv2.imread(line[1])
+    measurements.append(measurement)
+
+    # add right camera image
+    image_right = cv2.imread(line[2])
+    measurements.append(measurement)
     #Flip images
     if measurement != 0:
             image_flipped = np.fliplr(image)
             measurement_flipped = - measurement
             images.append(image_flipped)
             measurements.append(measurement_flipped)
+
 
 X_train = np.array(images)
 Y_train = np.array(measurements)
