@@ -54,8 +54,10 @@ for line in lines:
             images.append(image_flipped)
             measurements.append(measurement_flipped)
             right_flipped = np.fliplr(right_image)
+            images.append(right_flipped)
             measurements.append(measurement_flipped)
             left_flipped = np.fliplr(left_image)
+            images.append(left_flipped)
             measurements.append(measurement_flipped)
 
 
