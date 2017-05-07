@@ -37,7 +37,7 @@ for line in lines:
 
     # add right camera image
     image_right = cv2.imread(line[2])
-    right_meas = measurement =0.25
+    right_meas = measurement-0.25
     images.append(image_right)
     measurements.append(right_meas)
     #Flip images
@@ -46,14 +46,7 @@ for line in lines:
         measurement_flipped = - measurement
         images.append(image_flipped)
         measurements.append(measurement_flipped)
-        #Left camera images
-        # image_left_flipped = np.fliplr(image_left)
-        # images.append(image_left_flipped)
-        # measurements.append(measurement_flipped)
-        # #right camera images
-        # image_right_flipped = np.fliplr(image_right)
-        # images.append(image_left_flipped)
-        # measurements.append(measurement_flipped)
+
 
 
 
