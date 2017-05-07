@@ -30,18 +30,18 @@ for line in lines:
     measurement = float(line[3])
     measurements.append(measurement)
     #add left camera image
-    left_source_path = line[1]
-    image_left = cv2.imread(left_source_path)
-    left_meas = measurement+float(0.25)
-    images.append(image_left)
-    measurements.append(left_meas)
-
-    # add right camera image
-    right_source_path = line[2]
-    image_right = cv2.imread(right_source_path)
-    right_meas = measurement-float(0.25)
-    images.append(image_right)
-    measurements.append(right_meas)
+    # left_source_path = line[1]
+    # image_left = cv2.imread(left_source_path)
+    # left_meas = measurement+float(0.25)
+    # images.append(image_left)
+    # measurements.append(left_meas)
+    #
+    # # add right camera image
+    # right_source_path = line[2]
+    # image_right = cv2.imread(right_source_path)
+    # right_meas = measurement-float(0.25)
+    # images.append(image_right)
+    # measurements.append(right_meas)
     #Flip images
     if measurement != 0:
         image_flipped = np.fliplr(image)
