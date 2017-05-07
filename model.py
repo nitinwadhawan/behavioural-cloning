@@ -24,7 +24,7 @@ with open('driving_log.csv') as csvfile:
 
 
 for line in lines:
-    source_path = line[0]
+    source_path = line[1]
     image = cv2.imread(source_path)
     images.append(image)
     measurement = float(line[3])
