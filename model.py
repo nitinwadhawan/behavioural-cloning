@@ -46,7 +46,7 @@ def main(_):
     model = Sequential()
     #model.add(Cropping2D(cropping=((50, 10), (0, 0)), input_shape=(160, 320, 3)))
     model.add(Lambda(lambda x: x / 255 - 0.5, input_shape=input_shape))
-    model.add(Cropping2D(cropping=((70, 25), (0, 0)), input_shape=input_shape))
+    #model.add(Cropping2D(cropping=((70, 25), (0, 0)), input_shape=input_shape))
     model.add(Convolution2D(24, 5, 5, border_mode='valid', subsample=(2, 2), W_regularizer=l2(0.001)))
     model.add(Activation('relu'))
     model.add(Convolution2D(36, 5, 5, border_mode='valid', subsample=(2, 2), W_regularizer=l2(0.001)))
