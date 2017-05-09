@@ -48,11 +48,11 @@ for line in lines:
         right_measurement = float(line[3]) - 0.25
         measurements.append(right_measurement)
 
-        if measurement != 0:
-            image_flipped = np.fliplr(image)
-            measurement_flipped = - measurement
-            images.append(image_flipped)
-            measurements.append(measurement_flipped)
+        # if measurement != 0:
+        image_flipped = np.fliplr(image)
+        measurement_flipped = - measurement
+        images.append(image_flipped)
+        measurements.append(measurement_flipped)
             # right_flipped = np.fliplr(right_image)
             # images.append(right_flipped)
             # measurements.append(measurement_flipped)
