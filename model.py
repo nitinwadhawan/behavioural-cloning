@@ -32,21 +32,21 @@ for line in lines:
         measurement = float(line[3])
         measurements.append(measurement)
         #Left image
-        # left_source_path = line[1]
-        # left_filename = left_source_path.split('/')[-1]
-        # left_current_path = 'data/IMG/' + filename
-        # left_image = cv2.imread(left_current_path)
-        # images.append(left_image)
-        # left_measurement = float(line[3]) + 0.25
-        # measurements.append(left_measurement)
-        # # Right image
-        # right_source_path = line[2]
-        # right_filename = right_source_path.split('/')[-1]
-        # right_current_path = 'data/IMG/' + filename
-        # right_image = cv2.imread(right_current_path)
-        # images.append(right_image)
-        # right_measurement = float(line[3]) - 0.25
-        # measurements.append(right_measurement)
+        left_source_path = line[1]
+        left_filename = left_source_path.split('/')[-1]
+        left_current_path = 'data/IMG/' + filename
+        left_image = cv2.imread(left_current_path)
+        images.append(left_image)
+        left_measurement = float(line[3]) + 0.25
+        measurements.append(left_measurement)
+        # Right image
+        right_source_path = line[2]
+        right_filename = right_source_path.split('/')[-1]
+        right_current_path = 'data/IMG/' + filename
+        right_image = cv2.imread(right_current_path)
+        images.append(right_image)
+        right_measurement = float(line[3]) - 0.25
+        measurements.append(right_measurement)
 
         if measurement != 0:
             image_flipped = np.fliplr(image)
