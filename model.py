@@ -82,19 +82,14 @@ def main(_):
     #model.add(Cropping2D(cropping=((50, 10), (0, 0)), input_shape=input_shape))
     model.add(Convolution2D(24, 5, 5, border_mode='valid', subsample=(2, 2), W_regularizer=l2(0.001)))
     model.add(Activation('relu'))
-    model.add(Dropout(0.5))
     model.add(Convolution2D(36, 5, 5, border_mode='valid', subsample=(2, 2), W_regularizer=l2(0.001)))
     model.add(Activation('relu'))
-    model.add(Dropout(0.5))
     model.add(Convolution2D(48, 5, 5, border_mode='valid', subsample=(2, 2), W_regularizer=l2(0.001)))
     model.add(Activation('relu'))
-    model.add(Dropout(0.5))
     model.add(Convolution2D(64, 3, 3, border_mode='same', subsample=(2, 2), W_regularizer=l2(0.001)))
     model.add(Activation('relu'))
-    model.add(Dropout(0.5))
     model.add(Convolution2D(64, 3, 3, border_mode='valid', subsample=(2, 2), W_regularizer=l2(0.001)))
     model.add(Activation('relu'))
-    model.add(Dropout(0.5))
     model.add(Flatten())
     model.add(Dense(80, W_regularizer=l2(0.001)))
     model.add(Dropout(0.5))
@@ -110,7 +105,7 @@ def main(_):
 
 
     ### Model training
-    model.fit(X_train, Y_train,validation_split=0.2,shuffle=True)
+    model.fit(X_train, Y_train,validation_split=0.2,shuffle=True,nb_epoch=5)
     model.save('model.h5')
     print("Saved model to disk")
 
