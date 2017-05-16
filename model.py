@@ -37,12 +37,7 @@ for line in lines:
         left_current_path = 'data/IMG/' + filename
         left_image = cv2.imread(left_current_path)
         images.append(left_image)
-        left_measurement = measurement
-        if left_measurement <0:
-            left_measurement = left_measurement + 0.25
-        elif left_measurement >0:
-            left_measurement = left_measurement - 0.25
-
+        left_measurement = measurement + 0.20
         measurements.append(left_measurement)
         # Right image
         right_source_path = line[2]
@@ -50,34 +45,13 @@ for line in lines:
         right_current_path = 'data/IMG/' + filename
         right_image = cv2.imread(right_current_path)
         images.append(right_image)
-        right_measurement = measurement
-        if right_measurement < 0:
-            right_measurement = right_measurement - 0.25
-        elif right_measurement > 0:
-            right_measurement = right_measurement + 0.25
-
+        right_measurement = measurement - 0.20
         measurements.append(right_measurement)
 
-        # if measurement != 0:
         image_flipped = np.fliplr(image)
         measurement_flipped = - measurement
         images.append(image_flipped)
         measurements.append(measurement_flipped)
-            # right_flipped = np.fliplr(right_image)
-            # images.append(right_flipped)
-            # measurements.append(measurement_flipped)
-            # left_flipped = np.fliplr(left_image)
-            # images.append(left_flipped)
-            # measurements.append(measurement_flipped)
-
-
-    # correction = 0.2  # this is a parameter to tune
-    # steering_left = measurement + correction
-    # steering_right = measurement - correction
-    #add left camera image
-    # left_source_path = line[1]
-    # image_left = cv2.imread(left_source_path)
-    # left_meas = (measurement+0.25)
 
 X_train = np.array(images)
 Y_train = np.array(measurements)
