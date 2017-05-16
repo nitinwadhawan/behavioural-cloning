@@ -37,7 +37,7 @@ for line in lines:
         left_current_path = 'data/IMG/' + filename
         left_image = cv2.imread(left_current_path)
         images.append(left_image)
-        left_measurement = float(line[3])
+        left_measurement = measurement
         if left_measurement <0:
             left_measurement = left_measurement + 0.25
         elif left_measurement >0:
@@ -50,7 +50,7 @@ for line in lines:
         right_current_path = 'data/IMG/' + filename
         right_image = cv2.imread(right_current_path)
         images.append(right_image)
-        right_measurement = float(line[3])
+        right_measurement = measurement
         if right_measurement < 0:
             right_measurement = right_measurement - 0.25
         elif right_measurement > 0:
@@ -115,7 +115,7 @@ def main(_):
 
 
     ### Model training
-    model.fit(X_train, Y_train,validation_split=0.2,shuffle=True,nb_epoch=7)
+    model.fit(X_train, Y_train,validation_split=0.2,shuffle=True,nb_epoch=6)
     model.save('model.h5')
     print("Saved model to disk")
 
@@ -123,3 +123,4 @@ def main(_):
 
 if __name__ == '__main__':
     tf.app.run()
+
