@@ -4,8 +4,8 @@ import matplotlib.image as mpimg
 import matplotlib.pyplot as plt
 import numpy as np
 
-datadir = 'data/data/'
-csvfile = datadir + 'driving_log.csv'
+datadir = 'data/IMG/'
+csvfile = 'driving_log.csv'
 
 lines = []
 with open(csvfile) as input:
@@ -39,9 +39,9 @@ def generator(samples, batch_size=32):
                 filename_left = batch_sample[1].split('/')[-1]
                 filename_right = batch_sample[2].split('/')[-1]
 
-                path_center = 'data/data/IMG/' + filename_center
-                path_left = 'data/data/IMG/' + filename_left
-                path_right = 'data/data/IMG/' + filename_right
+                path_center = 'data/IMG/' + filename_center
+                path_left = 'data/IMG/' + filename_left
+                path_right = 'data/IMG/' + filename_right
 
 
                 image_center = mpimg.imread(path_center)
@@ -103,17 +103,15 @@ model.compile(loss='mse', optimizer='adam')
 train_steps = np.ceil(len(train_samples) / 32).astype(np.int32)
 validation_steps = np.ceil(len(validation_samples) / 32).astype(np.int32)
 
-model.fit_generator(train_generator, \
-                    steps_per_epoch=train_steps, \
-                    epochs=5, \
-                    verbose=1, \
+model.fit_generator(train_generator,
+                    nb_epoch=5,
+                    verbose=1,
                     callbacks=None,
-                    validation_data=validation_generator, \
-                    validation_steps=validation_steps, \
-                    class_weight=None, \
-                    max_q_size=10, \
-                    workers=1, \
-                    pickle_safe=False, \
-                    initial_epoch=0)
+                    validation_data=validation_generator,
+                    validation_steps=validation_steps,
+                    class_weight=None,
+                    max_q_size=10,
+                    workers=1,
+                    initial_epoch=0, samples_per_epoch=len(train_samples))
 
 model.save('model.h5')
