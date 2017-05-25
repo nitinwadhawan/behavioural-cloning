@@ -1,110 +1,46 @@
-import csv
-import cv2
-import matplotlib.image as mpimg
-import matplotlib.pyplot as plt
-import numpy as np
-
-datadir = 'data/IMG/'
-csvfile = 'driving_log.csv'
-
-lines = []
-with open(csvfile) as input:
-    reader = csv.reader(input)
-    for line in reader:
-        lines.append(line)
-
-lines = lines[1:]
-
-import sklearn
-from sklearn.model_selection import train_test_split
-
-train_samples, validation_samples = train_test_split(lines, test_size=0.2)
-
-
-# Generator for fit data
-def generator(samples, batch_size=32):
-    num_samples = len(samples)
-
-    while 1:
-        sklearn.utils.shuffle(samples)
-
-        # Loop over batches of lines read in from driving_log.csv
-        for offset in range(0, num_samples, batch_size):
-            batch_samples = samples[offset:offset + batch_size]
-            images = []
-            angles = []
-            for batch_sample in batch_samples:
-                filename_center = batch_sample[0].split('/')[-1]
-                filename_left = batch_sample[1].split('/')[-1]
-                filename_right = batch_sample[2].split('/')[-1]
-
-                path_center = 'data/IMG/' + filename_center
-                path_left = 'data/IMG/' + filename_left
-                path_right = 'data/IMG/' + filename_right
-
-                image_center = mpimg.imread(path_center)
-                image_left = mpimg.imread(path_left)
-                image_right = mpimg.imread(path_right)
-
-                image_flipped = np.copy(np.fliplr(image_center))
-
-                images.append(image_center)
-                images.append(image_left)
-                images.append(image_right)
-                images.append(image_flipped)
-
-                correction = 0.065
-                angle_center = float(batch_sample[3])
-                angle_left = angle_center + correction
-                angle_right = angle_center - correction
-
-                angle_flipped = -angle_center
-
-                angles.append(angle_center)
-                angles.append(angle_left)
-                angles.append(angle_right)
-                angles.append(angle_flipped)
-
-            X_train = np.array(images)
-            y_train = np.array(angles)
-
-            yield sklearn.utils.shuffle(X_train, y_train)
-
-
-print(len(train_samples))
-print(len(validation_samples))
-
-train_generator = generator(train_samples, batch_size=32)
-validation_generator = generator(validation_samples, batch_size=32)
-
 from keras.models import Sequential
-from keras.layers import Flatten, Dense, Lambda, Convolution2D, Cropping2D, Dropout
-from keras.layers.pooling import MaxPooling2D
+from keras.layers import Dense, Dropout, Flatten
+from keras.layers import Conv2D, MaxPooling2D, Lambda
+from keras.layers import Cropping2D
 
-model = Sequential()
 
-model.add(Cropping2D(cropping=((50, 20), (0, 0)), input_shape=(160, 320, 3)))
-model.add(Lambda(lambda x: x / 255. - 0.5))
-model.add(Convolution2D(24, 5, 5, subsample=(2, 2), activation='relu'))
-model.add(Convolution2D(36, 5, 5, subsample=(2, 2), activation='relu'))
-model.add(Convolution2D(48, 5, 5, subsample=(2, 2), activation='relu'))
-model.add(Convolution2D(64, 3, 3, subsample=(1, 1), activation='relu'))
-model.add(Convolution2D(64, 3, 3, subsample=(1, 1), activation='relu'))
-model.add(Flatten())
-model.add(Dense(100))
-model.add(Dropout(0.5))
-model.add(Dense(50))
-model.add(Dense(10))
-model.add(Dense(1))
+def Nvidia(input_shape, dropout = .3):
+    """
+    Implement the Nvidia model for self driving cars
+    :param input_shape: shape of the images (r,w,c)
+    :param dropout:
+    :return:
+    """
 
-model.compile(loss='mse', optimizer='adam')
-train_steps = np.ceil(len(train_samples) / 32).astype(np.int32)
-validation_steps = np.ceil(len(validation_samples) / 32).astype(np.int32)
+    model = Sequential()
 
-model.fit_generator(train_generator,
-                    samples_per_epoch=len(train_samples),
-                    validation_data=validation_generator,
-                    nb_val_samples=len(validation_samples), nb_epoch=5,
-                    )
+    # normalization
+    model.add(Lambda(lambda x: x / 127.5 - 1., input_shape=input_shape))
+    model.add(Cropping2D(cropping=((65, 25), (0, 0))))
 
-model.save('model.h5')
+    model.add(Conv2D(3, kernel_size=(1, 1), strides=(1, 1), activation='linear'))
+
+    model.add(Conv2D(24, kernel_size=(5, 5), strides=(2, 2), activation='relu'))
+    model.add(Conv2D(36, kernel_size=(5, 5), strides=(2, 2), activation='relu'))
+    model.add(Conv2D(48, kernel_size=(5, 5), strides=(2, 2), activation='relu'))
+
+    model.add(Conv2D(64, kernel_size=(3, 3), activation='relu'))
+    model.add(Conv2D(64, kernel_size=(3, 3), activation='relu'))
+
+    model.add(Flatten())
+    model.add(Dense(1164, activation='relu'))
+    model.add(Dropout(dropout))
+    model.add(Dense(100, activation='relu'))
+    model.add(Dropout(dropout))
+    model.add(Dense(50, activation='relu'))
+    model.add(Dropout(dropout))
+    model.add(Dense(10, activation='relu'))
+
+    model.add(Dense(1, activation='linear'))
+
+    return model
+
+if __name__ == '__main__':
+    ch, row, col = 3, 160, 320
+    model = Nvidia((row,col,ch))
+    print(model.summary())
